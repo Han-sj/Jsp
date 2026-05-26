@@ -14,7 +14,7 @@
 		
 		// 자동 로그인 처리
 		if(auto != null) {
-			Cookie autoCookie = new Cookie("auto", "true");
+			Cookie autoCookie = new Cookie("auto", userid);
 			autoCookie.setMaxAge(60 * 60 * 24 * 7); // 7일(초, 분, 시, 일)
 			
 			// 클라이언트 전송

@@ -1,3 +1,6 @@
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="sub1.User5"%>
@@ -14,17 +17,25 @@
 	//--------------------------------
 	// 데이터베이스 작업
 	//--------------------------------
-	String host = "jdbc:mysql://127.0.0.1:3306/studydb";
-	String user = "gkstjdwntl";
-	String pass = "1234";
+	// String host = "jdbc:mysql://127.0.0.1:3306/studydb";
+	// String user = "gkstjdwntl";
+	// String pass = "1234";
 	
 	try {
 		// 1) 드라이버 로드
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		// Class.forName("com.mysql.cj.jdbc.Driver");
 		
 		// 2) 데이터베이스 접속
-		Connection conn = DriverManager.getConnection(host, user, pass);
+		// Connection conn = DriverManager.getConnection(host, user, pass);
 
+		Context initCtx = new InitialContext();
+		Context ctx = (Context) initCtx.lookup("java:comp/env"); // JNDI 기본 환경 이름
+		
+		// 2) 커넥션풀 데이터베이스 커넥션 가져오기
+		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
+		Connection conn = ds.getConnection();
+		
+		
 		// 3) SQL 실행 객체 생성
 		Statement stmt = conn.createStatement();
 
@@ -36,10 +47,11 @@
 		while(rs.next()){
 			
 			User5 user5 = new User5();
-			user5.setName(rs.getString(1));
-			user5.setGender(rs.getString(2));
-			user5.setAge(rs.getInt(3));
-			user5.setAddr(rs.getString(4));
+			user5.setSeq(rs.getString(1));
+			user5.setName(rs.getString(2));
+			user5.setGender(rs.getString(3));
+			user5.setAge(rs.getInt(4));
+			user5.setAddr(rs.getString(5));
 			
 			user5List.add(user5);
 		}
@@ -65,6 +77,7 @@
 		<a href="/ch05/user5/register.jsp">등록</a>
 		<table border="1">
 			<tr>
+				<th>아이디</th>
 				<th>이름</th>
 				<th>성별</th>
 				<th>나이</th>
@@ -75,13 +88,14 @@
 				for(User5 user5 : user5List){
 			%>
 				<tr>
+					<td><%= user5.getSeq() %></td>
 					<td><%= user5.getName() %></td>
 					<td><%= user5.getGender() %></td>
 					<td><%= user5.getAge() %></td>
 					<td><%= user5.getAddr() %></td>
 					<td>
-						<a href="/ch05/user5/modify.jsp?userid=<%= user5.getName() %>">수정</a>
-						<a href="/ch05/user5/proc/delete.jsp?userid=<%= user5.getName() %>">삭제</a>
+						<a href="/ch05/user5/modify.jsp?seq=<%= user5.getSeq() %>">수정</a>
+						<a href="/ch05/user5/proc/delete.jsp?seq=<%= user5.getSeq() %>">삭제</a>
 					</td>
 				</tr>
 			<%

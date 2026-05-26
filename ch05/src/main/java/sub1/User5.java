@@ -1,12 +1,19 @@
 package sub1;
 
 public class User5 {
-
+	private String seq;
 	private String name;
 	private String gender;
 	private int age;
 	private String addr;
 	
+	
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
 	public String getName() {
 		return name;
 	}
@@ -33,8 +40,11 @@ public class User5 {
 	}
 	@Override
 	public String toString() {
-		return "User5 [name=" + name + ", gender=" + gender + ", age=" + age + ", addr=" + addr + "]";
+		return "User5 [seq=" + seq + ", name=" + name + ", gender=" + gender + ", age=" + age + ", addr=" + addr + "]";
 	}
+	
+	
+
 
 	
 	

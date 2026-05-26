@@ -1,3 +1,6 @@
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="sub1.User5"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -6,7 +9,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
 	// 전송 데이터 수신
-	String userid = request.getParameter("userid");
+	String seq = request.getParameter("seq");
 	
 	// 수정 데이터 선언
 	User5 user5 = null;
@@ -14,21 +17,28 @@
 	// ----------------------------------
 	// 데이터베이스 작업 - 수정 데이터 조회
 	// ----------------------------------
-	String host = "jdbc:mysql://127.0.0.1:3306/studydb";
-	String user = "gkstjdwntl";
-	String pass = "1234";
+	// String host = "jdbc:mysql://127.0.0.1:3306/studydb";
+	// String user = "gkstjdwntl";
+	// String pass = "1234";
 	
 	try {
 		// 1) 드라이버 로드
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
+		//  Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		// 2) 데이터베이스 접속
-		Connection conn = DriverManager.getConnection(host, user, pass);
+		// Connection conn = DriverManager.getConnection(host, user, pass);
+
+		Context initCtx = new InitialContext();
+		Context ctx = (Context) initCtx.lookup("java:comp/env"); // JNDI 기본 환경 이름
+		
+		// 2) 커넥션풀 데이터베이스 커넥션 가져오기
+		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
+		Connection conn = ds.getConnection();
 		
 		// 3) SQL 실행 객체 생성
-		String sql = "SELECT * FROM `User5` WHERE `userid` = ?";
+		String sql = "SELECT * FROM `User5` WHERE `seq` = ?";
 		PreparedStatement psmt = conn.prepareStatement(sql);
-		psmt.setString(1, userid);
+		psmt.setString(1, seq);
 
 		// 4) SQL 실행
 		ResultSet rs = psmt.executeQuery();
@@ -36,10 +46,11 @@
 		// 5) 결과셋처리
 		if(rs.next()){
 			user5 = new User5();
-			user5.setName(rs.getString(1));
-			user5.setGender(rs.getString(2));
-			user5.setAge(rs.getInt(3));
-			user5.setAddr(rs.getString(4));
+			user5.setSeq(rs.getString(1));
+			user5.setName(rs.getString(2));
+			user5.setGender(rs.getString(3));
+			user5.setAge(rs.getInt(4));
+			user5.setAddr(rs.getString(5));
 		}
 
 		// 6) 데이터베이스 종료
