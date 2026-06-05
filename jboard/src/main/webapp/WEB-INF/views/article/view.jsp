@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +9,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <header>
-            <h3>
-                <a href="/index.html" class="title">Board Project</a>
-            </h3>
-            <p>
-                <a href="../user/info.html" class="info">홍길동</a>님 반갑습니다.
-                <a href="#">[로그아웃]</a>
-            </p>
-            </p>
-        </header>
+        <%@ include file="./_head.jsp" %>
         <main id="article">
             <section class="view">
                 <nav>
@@ -26,31 +18,34 @@
                 <table border="0">                    
                     <tr>
                         <th>제목</th>
-                        <td><input type="text" name="title" value="제목입니다." readonly/></td>
+                        <td><input type="text" name="title" value="${articleDTO.title}" readonly/></td>
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td><input type="text" name="writer" value="chhak(개발에반하다)" readonly/></td>
+                        <td><input type="text" name="writer" value="${articleDTO.writer}(${articleDTO.nick})" readonly/></td>
                     </tr>
+                    <c:if test="${articleDTO.file gt 0}">
                     <tr>
                         <th>파일</th>
                         <td>
-                            <p><a href="#">2021년 상반기 매출자료.xls</a>&nbsp;<span>3</span>회 다운로드</p>
-                            <p><a href="#">2022년 상반기 매출자료.xls</a>&nbsp;<span>7</span>회 다운로드</p>
+                        	<c:forEach var="fileDTO" items="${articleDTO.fileList}">
+                            	<p><a href="#">${fileDTO.oname}</a>&nbsp;<span>${fileDTO.download}</span>회 다운로드</p>
+                            </c:forEach>
                         </td>
                     </tr>
+                    </c:if>
                     <tr>
                         <th>내용</th>
                         <td>
-                            <textarea name="content" readonly>내용 샘플입니다.</textarea>
+                            <textarea name="content" readonly>${articleDTO.content}</textarea>
                         </td>
                     </tr>                    
                 </table>
                 
                 <div>
                     <a href="#" class="btn btnRemove">삭제</a>
-                    <a href="./modify.html" class="btn btnModify">수정</a>
-                    <a href="./list.html" class="btn btnList">목록</a>
+                    <a href="#" class="btn btnModify">수정</a>
+                    <a href="/jboard/article/list.do?page=${page}" class="btn btnList">목록</a>
                 </div>
 
                 <!-- 댓글목록 -->
@@ -85,12 +80,7 @@
 
             </section>
         </main>
-        <footer>
-            <p>
-                <span class="copyright">Copyrightⓒ 김철학(개발에반하다.)</span>
-                <span class="version">v1.0.1</span>
-            </p>
-        </footer>
+        <%@ include file="./_tail.jsp" %>
     </div>    
 </body>
 </html>

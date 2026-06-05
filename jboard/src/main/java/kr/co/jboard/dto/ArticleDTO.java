@@ -1,7 +1,9 @@
 package kr.co.jboard.dto;
 
-public class ArticleDTO {
+import java.util.List;
 
+public class ArticleDTO {
+	
 	// Article 테이블 속성 확인
 	private int ano;
 	private String type;
@@ -13,6 +15,45 @@ public class ArticleDTO {
 	private String writer;
 	private String regip;
 	private String wdate;
+	
+	// 추가 필드
+	private String nick;
+	private List<FileDTO> fileList;
+	
+	
+	// 검색용 추가필드
+	private String searchType;
+	private String keyword;
+	
+	public String getSearchType() {
+		return searchType;
+	}	
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+	
+	public List<FileDTO> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<FileDTO> fileList) {
+		this.fileList = fileList;
+	}
+	
 	public int getAno() {
 		return ano;
 	}
@@ -68,16 +109,17 @@ public class ArticleDTO {
 		this.regip = regip;
 	}
 	public String getWdate() {
-		return wdate;
+		return wdate.substring(2, 16);
 	}
+	
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
 	}
+	
 	@Override
 	public String toString() {
 		return "ArticleDTO [ano=" + ano + ", type=" + type + ", title=" + title + ", content=" + content + ", comment="
 				+ comment + ", file=" + file + ", hit=" + hit + ", writer=" + writer + ", regip=" + regip + ", wdate="
 				+ wdate + "]";
 	}
-	
 }
