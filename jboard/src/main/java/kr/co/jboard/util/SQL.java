@@ -97,21 +97,20 @@ public class SQL {
 	public static final String DELETE_FILE = "delete from File where fno=?";
 	
 	// Comment
-	public static final String INSERT_COMMENT = "insert into File set "
-														+ "cno=?,"
+	public static final String INSERT_COMMENT = "insert into Comment set "
 														+ "parent=?,"
 														+ "content=?,"
 														+ "writer=?,"
 														+ "regip=?,"
 														+ "wdate=now()";
 	public static final String SELECT_COMMENT = "select * from Comment where cno=?";
-	public static final String SELECT_ALL_COMMENT = "select * from Comment";
+	public static final String SELECT_ALL_COMMENT = "select * from Comment where parent=?";
 	public static final String UPDATE_COMMENT = "update Comment set "
 														+"content=?,"
 														+"writer=?,"
 														+"regip=? "
 														+"where cno=?";
-	public static final String DELETE_COMMENT = "delete from File where cno=?";
+	public static final String DELETE_COMMENT = "delete from Comment where cno=?";
 	
 	// Terms
 	public static final String INSERT_TERMS = "insert into Terms set "
